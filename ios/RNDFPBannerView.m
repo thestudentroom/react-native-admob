@@ -64,13 +64,17 @@
         _bannerView.delegate = self;
         _bannerView.adUnitID = _adUnitID;
         _bannerView.rootViewController = [UIApplication sharedApplication].delegate.window.rootViewController;
-        GADRequest *request = [GADRequest request];
+        DFPRequest *request = [DFPRequest request];
         if(_testDeviceID) {
             if([_testDeviceID isEqualToString:@"EMULATOR"]) {
                 request.testDevices = @[kGADSimulatorID];
             } else {
                 request.testDevices = @[_testDeviceID];
             }
+        }
+
+        if(_targeting != nil) {
+            request.customTargeting = _targeting;
         }
 
         [_bannerView loadRequest:request];

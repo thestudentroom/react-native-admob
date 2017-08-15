@@ -24,7 +24,7 @@ export default class AdMobBanner extends React.Component {
   }
 
   render() {
-    const { adUnitID, testDeviceID, bannerSize, style, didFailToReceiveAdWithError } = this.props;
+    const { adUnitID, testDeviceID, bannerSize, targeting, style, didFailToReceiveAdWithError } = this.props;
     return (
       <View style={this.props.style}>
         <RNBanner
@@ -38,7 +38,8 @@ export default class AdMobBanner extends React.Component {
           onAdViewWillLeaveApplication={this.props.adViewWillLeaveApplication}
           testDeviceID={testDeviceID}
           adUnitID={adUnitID}
-          bannerSize={bannerSize} />
+          bannerSize={bannerSize}
+          targeting={targeting}  />
       </View>
     );
   }
