@@ -4,6 +4,8 @@ import android.support.annotation.Nullable;
 import android.util.Log;
 
 import com.facebook.react.bridge.Arguments;
+import com.facebook.react.bridge.ReadableMap;
+import com.facebook.react.bridge.ReadableMapKeySetIterator;
 import com.facebook.react.bridge.WritableMap;
 import com.facebook.react.common.MapBuilder;
 import com.facebook.react.uimanager.PixelUtil;
@@ -28,8 +30,10 @@ public class RNPublisherBannerViewManager extends SimpleViewManager<ReactViewGro
   public static final String PROP_BANNER_SIZE = "bannerSize";
   public static final String PROP_AD_UNIT_ID = "adUnitID";
   public static final String PROP_TEST_DEVICE_ID = "testDeviceID";
+  public static final String PROP_TARGETING = "targeting";
 
   private String testDeviceID = null;
+  private ReadableMap targeting = null;
 
   public enum Events {
     EVENT_SIZE_CHANGE("onSizeChange"),
@@ -207,6 +211,11 @@ public class RNPublisherBannerViewManager extends SimpleViewManager<ReactViewGro
     this.testDeviceID = testDeviceID;
   }
 
+  @ReactProp(name = PROP_TARGETING)
+  public void setPropTargeting(final ReactViewGroup view, final ReadableMap targeting) {
+    this.targeting = targeting;
+  }
+
   private void loadAd(final PublisherAdView adView) {
     if (adView.getAdSizes() != null && adView.getAdUnitId() != null) {
       PublisherAdRequest.Builder adRequestBuilder = new PublisherAdRequest.Builder();
@@ -217,6 +226,16 @@ public class RNPublisherBannerViewManager extends SimpleViewManager<ReactViewGro
           adRequestBuilder = adRequestBuilder.addTestDevice(testDeviceID);
         }
       }
+
+      if (targeting != null) {
+        ReadableMapKeySetIterator iterator = targeting.keySetIterator();
+        while (iterator.hasNextKey()) {
+            String dimensionIndex = iterator.nextKey();
+            String dimensionValue = targeting.getString(dimensionIndex);
+            adRequestBuilder.addCustomTargeting(dimensionIndex, dimensionValue);
+        }
+      }
+
       PublisherAdRequest adRequest = adRequestBuilder.build();
       adView.loadAd(adRequest);
     }
