@@ -27,7 +27,6 @@ public class RNAdMobBannerViewManager extends SimpleViewManager<ReactViewGroup> 
   public static final String PROP_BANNER_SIZE = "bannerSize";
   public static final String PROP_AD_UNIT_ID = "adUnitID";
   public static final String PROP_TEST_DEVICE_ID = "testDeviceID";
-  public static final Object PROP_TARGETING = "targeting";
 
   private String testDeviceID = null;
 
@@ -202,11 +201,6 @@ public class RNAdMobBannerViewManager extends SimpleViewManager<ReactViewGroup> 
   @ReactProp(name = PROP_TEST_DEVICE_ID)
   public void setPropTestDeviceID(final ReactViewGroup view, final String testDeviceID) {
     this.testDeviceID = testDeviceID;
-  }
-
-  @ReactProp(name = PROP_TARGETING)
-  public void setPropTargeting(final ReactViewGroup view, final Object targeting) {
-    this.targeting = targeting;
   }
 
   private void loadAd(final AdView adView) {
