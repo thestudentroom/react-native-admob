@@ -126,6 +126,17 @@ didReceiveAppEvent:(NSString *)name
     }
 }
 
+- (void)setTargeting:(NSDictionary *)targeting
+{
+    if(![targeting isEqual:_targeting]) {
+        _targeting = targeting;
+        if (_bannerView) {
+            [_bannerView removeFromSuperview];
+        }
+        [self loadBanner];
+    }
+}
+
 -(void)layoutSubviews
 {
     [super layoutSubviews ];
